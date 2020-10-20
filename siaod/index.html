@@ -2,31 +2,76 @@
 <html lang="en">
 
 <head>
-   <meta charset="UTF-8">
-   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <title>СИАОД</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>СИАОД</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: monospace;
+            font-size: 14px;
+        }
+
+        .row {
+            display: flex;
+            justify-content: space-around;
+        }
+
+        .row:nth-child(even) {
+            background: whitesmoke;
+        }
+    </style>
 </head>
 
 <body>
-   <h1>СИАОД</h1>
-   <h2>Никонов Федор Андреевич - ПИ 201(2)</h2>
+    <center>
+        <h1>СИАОД</h1>
+        <h2>Никонов Федор Андреевич - ПИ 201(2)</h2>
+    </center>
 
-   <template id="link">
-      <a href="$href">$text</a>
-   </template>
+    <template id="link">
+        <a style="display: inline-block; margin-right: 0.25em; font-family: monospace; margin-bottom: 0.25em"
+            href="$href">$text</a>
+    </template>
 
-   <script>
-      let linkTemplate = document.createElement('div').innerHTML = link.innerHTML;
-      function link(text, href) {
-         let link = document.createElement('div');
-         link.innerHTML = link.innerHTML.replace('$href', href).replace('$text', text);
-         document.body.append(link);
-         return link;
-      }
+    <script>
+        let linkTemplate = document.getElementById('link');
 
-      for (let i = 2; i < 5 + 1; i++)
-         link(`Лабораторная работа №${i}`, `./lab${i}.html`);
-   </script>
+        function cre(tag, style = '', parent = document.body) {
+            let el = document.createElement(tag);
+            parent.append(el);
+            el.style = style;
+            return el;
+        }
+        function link(text, href, download = false) {
+            let link = document.createElement('span');
+            link.innerHTML = linkTemplate.innerHTML.replace('$href', href).replace('$text', text);
+            link = link.firstElementChild;
+            document.body.append(link);
+            if (download) {
+                link.setAttribute('download', download);
+                link.setAttribute('target', '_blank');
+            }
+            return link;
+        }
+
+        let br = () => cre('br');
+        let row = (...children) => {
+            let row = cre('div', 'display: flex; justify-content: space-around;')
+            row.className = 'row';
+            row.append(...children);
+        };
+
+        for (let i = 2; i < 5 + 1; i++) {
+            row(
+                link(`Лабораторная работа №${i}`, `./lab${i}.html`),
+                link(`<button>Скачать исходник</button>`, `./lab${i}.ipynb`, `lab${i}.ipynb`),
+            );
+        }
+    </script>
 </body>
 
 </html>
