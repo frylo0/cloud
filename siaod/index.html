@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>СИАОД</title>
+</head>
+
+<body>
+   <h1>СИАОД</h1>
+   <h2>Никонов Федор Андреевич - ПИ 201(2)</h2>
+
+   <template id="link">
+      <a href="$href">$text</a>
+   </template>
+
+   <script>
+      let linkTemplate = document.createElement('div').innerHTML = link.innerHTML;
+      function link(text, href) {
+         let link = document.createElement('div');
+         link.innerHTML = link.innerHTML.replace('$href', href).replace('$text', text);
+         document.body.append(link);
+         return link;
+      }
+
+      for (let i = 2; i < 5 + 1; i++)
+         link(`Лабораторная работа №${i}`, `./lab${i}.html`);
+   </script>
+</body>
+
+</html>
